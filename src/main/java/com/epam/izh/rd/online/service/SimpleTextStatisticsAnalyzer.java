@@ -122,6 +122,13 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public List<String> sortWordsByLength(String text, Direction direction) {
-        return emptyList();
+        List<String> listOfAllWords=getWords(text);
+        if (direction==Direction.ASC) {
+            listOfAllWords.sort(((o1, o2) -> o1.length()-o2.length()));
+        }
+        else if (direction==Direction.DESC) {
+            listOfAllWords.sort(((o1, o2) -> o2.length()-o1.length()));
+        }
+        return listOfAllWords;
     }
 }
