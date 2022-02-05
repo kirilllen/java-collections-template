@@ -26,9 +26,9 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public int countSumLengthOfWords(String text) {
-        List<String> list=getWords(text);
+        List<String> listOfAllWords=getWords(text);
         sum=0;
-        list.forEach(this::sumLengthOfWords);
+        listOfAllWords.forEach(this::sumLengthOfWords);
         return sum;
 
     }
@@ -45,8 +45,8 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public int countNumberOfWords(String text) {
-        List<String> list=getWords(text);
-        return list.size();
+        List<String> listOfAllWords=getWords(text);
+        return listOfAllWords.size();
     }
 
     /**
@@ -90,7 +90,10 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public Set<String> getUniqueWords(String text) {
-        return emptySet();
+        List<String> listOfAllWords=getWords(text);
+        Set<String> uniqueWords=new HashSet<>();
+        uniqueWords.addAll(listOfAllWords);
+        return uniqueWords;
     }
 
     /**
