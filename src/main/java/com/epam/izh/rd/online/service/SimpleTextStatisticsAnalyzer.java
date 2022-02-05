@@ -56,7 +56,7 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public int countNumberOfUniqueWords(String text) {
-        return 0;
+        return getUniqueWords(text).size();
     }
 
     /**
@@ -105,7 +105,11 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public Map<String, Integer> countNumberOfWordsRepetitions(String text) {
-        return emptyMap();
+        List<String> listOfAllWords=getWords(text);
+        Set<String> uniqueWords=getUniqueWords(text);
+        Map<String, Integer> frequencyOfWords=new HashMap<>();
+        uniqueWords.forEach(item->frequencyOfWords.put(item,Collections.frequency(listOfAllWords,item)));
+        return frequencyOfWords;
     }
 
     /**
