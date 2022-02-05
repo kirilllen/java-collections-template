@@ -3,6 +3,8 @@ package com.epam.izh.rd.online.service;
 import com.epam.izh.rd.online.helper.Direction;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.Collections.*;
 
@@ -57,7 +59,15 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public List<String> getWords(String text) {
-        return emptyList();
+        List<String> words=new ArrayList<>();
+
+        String wordReg="\\w+\\b";
+        Pattern pattern= Pattern.compile(wordReg);
+        Matcher matcher=pattern.matcher(text);
+        while (matcher.find()) {
+            words.add(matcher.group());
+        }
+        return words;
     }
 
     /**
