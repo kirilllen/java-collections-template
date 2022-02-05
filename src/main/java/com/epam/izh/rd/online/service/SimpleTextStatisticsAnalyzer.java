@@ -16,6 +16,7 @@ import static java.util.Collections.*;
  * При необходимости, можно создать внутри данного класса дополнительные вспомогательные приватные методы.
  */
 public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
+    static int sum=0;
 
     /**
      * Необходимо реализовать функционал подсчета суммарной длины всех слов (пробелы, знаким препинания итд не считаются).
@@ -25,8 +26,16 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public int countSumLengthOfWords(String text) {
-        return 0;
+        List<String> list=getWords(text);
+        sum=0;
+        list.forEach(this::sumLengthOfWords);
+        return sum;
+
     }
+    private void sumLengthOfWords(String word) {
+        sum+=word.length();
+    }
+
 
     /**
      * Необходимо реализовать функционал подсчета количества слов в тексте.
