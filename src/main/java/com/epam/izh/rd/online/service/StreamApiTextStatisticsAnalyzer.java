@@ -38,7 +38,12 @@ public class StreamApiTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
 
     @Override
     public int countNumberOfUniqueWords(String text) {
-        return 0;
+        Set<String> uniqueWords=getUniqueWords(text);
+        int numberOfUniqueWords=uniqueWords
+                .stream()
+                .mapToInt(s->1)
+                .sum();
+        return numberOfUniqueWords;
     }
 
     @Override
