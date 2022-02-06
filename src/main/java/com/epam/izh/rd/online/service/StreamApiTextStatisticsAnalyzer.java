@@ -17,12 +17,23 @@ import static java.util.Collections.*;
 public class StreamApiTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
     @Override
     public int countSumLengthOfWords(String text) {
-        return 0;
+        List listOfAllWords=getWords(text);
+        int sumLengthOfWords=listOfAllWords
+                .stream()
+                .mapToInt(s->s.toString().length())
+                .sum();
+
+        return sumLengthOfWords;
     }
 
     @Override
     public int countNumberOfWords(String text) {
-        return 0;
+        List listOfAllWords=getWords(text);
+        int numberOfWords=listOfAllWords
+                .stream()
+                .mapToInt(s->1)
+                .sum()
+        return numberOfWords;
     }
 
     @Override
