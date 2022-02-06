@@ -70,11 +70,27 @@ public class StreamApiTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
 
     @Override
     public Map<String, Integer> countNumberOfWordsRepetitions(String text) {
-        return emptyMap();
+        List<String> listOfAllWords=getWords(text);
+        Map<String, Integer> frequencyOfWords=listOfAllWords
+                .stream()
+                .collect(Collectors.toMap(s->s,s->1,Integer::sum));
+        return frequencyOfWords;
     }
 
     @Override
     public List<String> sortWordsByLength(String text, Direction direction) {
-        return emptyList();
+        List<String> listOfAllWords=getWords(text);
+        List<String> sortedList=new ArrayList<>();
+        if (direction==Direction.ASC) {
+            sortedList=listOfAllWords.stream()
+                    .sorted((o1, o2) -> o1.length() - o2.length())
+                    .collect(Collectors.toList());
+        }
+        if (direction==Direction.DESC) {
+            sortedList=listOfAllWords.stream()
+                    .sorted((o1, o2) -> o2.length() - o1.length())
+                    .collect(Collectors.toList());
+        }
+        return sortedList;
     }
 }
