@@ -32,7 +32,7 @@ public class StreamApiTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
         int numberOfWords=listOfAllWords
                 .stream()
                 .mapToInt(s->1)
-                .sum()
+                .sum();
         return numberOfWords;
     }
 
