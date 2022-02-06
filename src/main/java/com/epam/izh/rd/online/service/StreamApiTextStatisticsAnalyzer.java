@@ -46,7 +46,10 @@ public class StreamApiTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
 
     @Override
     public Set<String> getUniqueWords(String text) {
-        return emptySet();
+        List<String> listOfAllWords=getWords(text);
+        Set<String> uniqueWords=listOfAllWords.stream()
+                .collect(Collectors.toSet());
+        return uniqueWords;
     }
 
     @Override
