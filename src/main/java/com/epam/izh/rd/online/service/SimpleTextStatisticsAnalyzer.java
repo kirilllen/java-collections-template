@@ -3,6 +3,8 @@ package com.epam.izh.rd.online.service;
 import com.epam.izh.rd.online.helper.Direction;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.Collections.*;
 
@@ -14,6 +16,7 @@ import static java.util.Collections.*;
  * При необходимости, можно создать внутри данного класса дополнительные вспомогательные приватные методы.
  */
 public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
+    static int sum=0;
 
     /**
      * Необходимо реализовать функционал подсчета суммарной длины всех слов (пробелы, знаким препинания итд не считаются).
@@ -23,8 +26,16 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public int countSumLengthOfWords(String text) {
-        return 0;
+        List<String> listOfAllWords=getWords(text);
+        sum=0;
+        listOfAllWords.forEach(this::sumLengthOfWords);
+        return sum;
+
     }
+    private void sumLengthOfWords(String word) {
+        sum+=word.length();
+    }
+
 
     /**
      * Необходимо реализовать функционал подсчета количества слов в тексте.
@@ -34,7 +45,8 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public int countNumberOfWords(String text) {
-        return 0;
+        List<String> listOfAllWords=getWords(text);
+        return listOfAllWords.size();
     }
 
     /**
@@ -44,7 +56,7 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public int countNumberOfUniqueWords(String text) {
-        return 0;
+        return getUniqueWords(text).size();
     }
 
     /**
@@ -57,7 +69,15 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public List<String> getWords(String text) {
-        return emptyList();
+        List<String> words=new ArrayList<>();
+
+        String wordReg="\\w+\\b";
+        Pattern pattern= Pattern.compile(wordReg);
+        Matcher matcher=pattern.matcher(text);
+        while (matcher.find()) {
+            words.add(matcher.group());
+        }
+        return words;
     }
 
     /**
@@ -70,7 +90,10 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public Set<String> getUniqueWords(String text) {
-        return emptySet();
+        List<String> listOfAllWords=getWords(text);
+        Set<String> uniqueWords=new HashSet<>();
+        uniqueWords.addAll(listOfAllWords);
+        return uniqueWords;
     }
 
     /**
@@ -82,7 +105,11 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public Map<String, Integer> countNumberOfWordsRepetitions(String text) {
-        return emptyMap();
+        List<String> listOfAllWords=getWords(text);
+        Set<String> uniqueWords=getUniqueWords(text);
+        Map<String, Integer> frequencyOfWords=new HashMap<>();
+        uniqueWords.forEach(item->frequencyOfWords.put(item,Collections.frequency(listOfAllWords,item)));
+        return frequencyOfWords;
     }
 
     /**
@@ -95,6 +122,13 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
      */
     @Override
     public List<String> sortWordsByLength(String text, Direction direction) {
-        return emptyList();
+        List<String> listOfAllWords=getWords(text);
+        if (direction==Direction.ASC) {
+            listOfAllWords.sort(((o1, o2) -> o1.length()-o2.length()));
+        }
+        else if (direction==Direction.DESC) {
+            listOfAllWords.sort(((o1, o2) -> o2.length()-o1.length()));
+        }
+        return listOfAllWords;
     }
 }
