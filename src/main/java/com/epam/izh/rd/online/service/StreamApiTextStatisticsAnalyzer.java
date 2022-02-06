@@ -48,15 +48,21 @@ public class StreamApiTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
 
     @Override
     public List<String> getWords(String text) {
-        //метод остался полностью аналогичным методу без стрима, так как не удалось переделать в стрим значения matcher.group()
-        List<String> words=new ArrayList<>();
-
         String wordReg="\\w+\\b";
         Pattern pattern= Pattern.compile(wordReg);
         Matcher matcher=pattern.matcher(text);
-        while (matcher.find()) {
-            words.add(matcher.group());
+        int i=0;
+        while (matcher.find()) {i++;}
+        String[] matchGroups=new String[i];
+        i=0;
+        Matcher matcher2=pattern.matcher(text);
+        while (matcher2.find()){
+            matchGroups[i]=matcher2.group();
+            i++;
+
         }
+        List<String> words= Arrays.stream(matchGroups)
+                .collect(Collectors.toList());
         return words;
     }
 
